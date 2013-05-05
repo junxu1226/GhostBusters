@@ -121,9 +121,9 @@ class ExactInference(InferenceModule):
       if emissionModel[trueDistance] > 0:
           allPossible[p] = emissionModel[trueDistance] * self.beliefs[p]
 
-    if noisyDistance == None:
+    if noisyDistance == 999:
         eatenBelief = util.Counter()
-        eatenBelief[self.getJailPosition()] = 1
+        eatenBelief[(2 * self.index -1, 1)] = 1
         allPossible = eatenBelief
 
     allPossible.normalize()
@@ -230,7 +230,7 @@ class ParticleFilter(InferenceModule):
         for i in range (0, self.numParticles):
             self.particles.append(util.sampleFromCounter(newBeliefs))
 
-    if noisyDistance == None:
+    if noisyDistance == 999:
         self.particles = []
         for i in range (0, self.numParticles):
             self.particles.append(self.getJailPosition())
