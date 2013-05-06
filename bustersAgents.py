@@ -11,6 +11,7 @@ from game import Agent
 from game import Directions
 from keyboardAgents import KeyboardAgent
 import inference
+import random
 
 class BustersAgent:
   "An agent that tracks and displays its beliefs about ghost positions."
@@ -128,12 +129,15 @@ class GreedyBustersAgent(BustersAgent):
     "that minimizes the gap"
     minDist = closestGhostDistance
     bestMove = None
+    "this loop takes a random best move (in case multiple happen to close the distance equally"
     for action in legal:
         succPos = Actions.getSuccessor(pacmanPosition, action)
         succDist = self.distancer.getDistance(succPos, closestGhostPosition)
         if succDist < minDist:
             minDist = succDist
             bestMove = action
+        elif succDist == minDist:
+            bestMove = random.choice([bestMove, action])
 
     return bestMove
 
